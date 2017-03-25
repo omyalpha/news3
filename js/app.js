@@ -16,7 +16,8 @@ var myApp = new Framework7({
     swipeBackPage: !1,
     pushState: !0,
     swipePanel: "left",
-    modalTitle: "Title"
+    modalTitle: "Title",
+	init: false
 }), $$ = Dom7;
 
 
@@ -26,10 +27,16 @@ var mainView = myApp.addView(".view-main", {
 
 $$(document).on("pageInit", function(e) {
     var page = e.detail.page;
+	console.log('initialized');
+		mainView.router.load({
+		   url: 'pages/home.html',
+		   ignoreCache: true,
+		   reload: true
+		});
 	
 	// index page
 	if (page.name === 'indexpage') {
-		console.log('Starting index page');		
+		console.log('Starting index page');	
 	}
 	
 	// news home page
@@ -191,4 +198,7 @@ $$(document).on("pageInit", function(e) {
 
 }), $(document).ready(function() {
 // enter here
+myApp.init();
+console.log('initialized with jquery');
+window.location.href = "#!/pages/home.html";
 });
