@@ -44,6 +44,8 @@ $$(document).on("pageInit", function(e) {
 	console.log('Starting home page');
 		var indexText ="";
 		$.ajax({
+		  beforeSend: function() { myApp.showIndicator(); },
+		  complete: function(){ myApp.hideIndicator(); },
 		  url: "http://webhosting.sd/common7/getentries.php",
 		  dataType: "jsonp",
 		  jsonpCallback: "jsonCallback",
@@ -85,15 +87,11 @@ $$(document).on("pageInit", function(e) {
 						indexText += '<img width="100%" class="article-bg" src="' + thisimageurl + '" />';
 						indexText += '</article>';
 					  });
-					  if ($('#indexHtml').is(':empty')){
-						  $("#indexHtml").html(indexText);
-						  console.log("div filled wih:" + $("#indexHtml").html);
-					  } else {
-						  console.log("index page is not empty, it contains: " + $("#indexHtml").html)
-					  }
+						$("#indexHtml").html(indexText);
+
 					},
            error:function(XMLHttpRequest,textStatus,errorThrown){
-				alert(textStatus + '1; ' + errorThrown);
+				alert("Failed Loading Home");
            }
 		});		
 	}
@@ -108,6 +106,8 @@ $$(document).on("pageInit", function(e) {
 		var htmlText ="";
 		
 				$.ajax({
+						beforeSend: function() { myApp.showIndicator(); },
+						complete: function(){ myApp.hideIndicator(); },
 						url:'http://webhosting.sd/common7/getcat.php',
 						data: {cat:getid},
 						dataType: "jsonp",
@@ -138,16 +138,17 @@ $$(document).on("pageInit", function(e) {
 								htmlText += '</div>';
 								htmlText += '</div>';
 								htmlText += '<div class="card-footer">';
-								htmlText += '<a class="link" href="pages/details.html?getid=' + data[i].id + '"> إقرأ المزيد <i class="fa fa-arrow-circle-left mr-5"></i></a>';
+								htmlText += '<a class="link" href="pages/details.html?getid=' + data[i].id + '"> إقرأ المزيد <span class="kkicon icon-chevron-left-square"></span></a>';
 								htmlText += '</div>';
 								htmlText += '</div>';
 							});
 							$("#category").html(category);
 							$("#Results").html(htmlText);
+							console.log(category);
 							
 						},
 						error:function(XMLHttpRequest,textStatus,errorThrown){
-							alert(textStatus + '3; ' + errorThrown);
+							alert("Failed Loading News Category");
 						}
 
 					});
@@ -160,7 +161,9 @@ $$(document).on("pageInit", function(e) {
 		var getid = page.query.getid;
 		var detailsText ="";
 				$.ajax({
-                    url:'http://webhosting.sd/common7/entry.php',
+                    beforeSend: function() { myApp.showIndicator(); },
+					complete: function(){ myApp.hideIndicator(); },
+					url:'http://webhosting.sd/common7/entry.php',
 					data: {getid:getid},
                     dataType: "jsonp",
 					jsonpCallback: "jsonCallback",
@@ -188,7 +191,7 @@ $$(document).on("pageInit", function(e) {
 						$("#detailsHtml").html(detailsText);
 					},
                     error:function(XMLHttpRequest,textStatus,errorThrown){
-                        alert(textStatus + '2; ' + errorThrown);
+                        alert("Failed Loading Details");
                     }
 				});
 	}
